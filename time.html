@@ -1,87 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form List</title>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <style>
+        html,
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
+            height: 500%;
+            background-color: #f4f4f9;
+            background: linear-gradient(to top, #505285 0%, #585e92 12%, #65689f 25%, #7474b0 37%, #7e7ebb 50%, #8389c7 62%, #9795d4 75%, #a2a1dc 87%, #b5aee4 100%);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
+
+        .navbar {
+            background-color: #5161ce;
+            padding: 0;
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            margin: 0px;
+        }
+
+        .navbar-logo {
+            padding: 15px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .navbar-toggler {
+            border: none;
+            background: transparent;
+            position: absolute;
+            right: 15px;
+        }
+
+        .navbar-toggler i {
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .navbar-collapse {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .navbar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .navbar-nav li {
+            position: relative;
+        }
+
+        .navbar-nav a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 15px;
+            display: block;
+            padding: 20px;
+            transition: color 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .navbar-nav li.active a {
+            color: #5161ce;
+            background-color: #fff;
+            transition: color 0.7s;
+        }
+
+        .hori-selector {
+            display: inline-block;
+            position: absolute;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            background-color: #fff;
+            border-radius: 15px 15px 0 0;
+            margin-top: 10px;
+        }
+
+        .hori-selector .right,
+        .hori-selector .left {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: #fff;
+            bottom: 10px;
+        }
+
+        .hori-selector .right {
+            right: -25px;
+        }
+
+        .hori-selector .left {
+            left: -25px;
+        }
+
+        .hori-selector .right::before,
+        .hori-selector .left::before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #5161ce;
+        }
+
+        .hori-selector .right::before {
+            bottom: 0;
+            right: -25px;
+        }
+
+        .hori-selector .left::before {
+            bottom: 0;
+            left: -25px;
+        }
+
+        @media (min-width: 992px) {
+            .navbar-expand-custom {
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: flex-start;
+            }
+
+            .navbar-expand-custom .navbar-nav {
+                flex-direction: row;
+            }
+
+            .navbar-expand-custom .navbar-toggler {
+                display: none;
+            }
+
+            .navbar-expand-custom .navbar-collapse {
+                display: flex !important;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .navbar-nav {
+                flex-direction: column;
+            }
+
+            .navbar-nav a {
+                padding: 12px 30px;
+                width: 100%;
+            }
+
+            .hori-selector {
+                display: none;
+            }
+
+            .navbar-collapse {
+                display: none;
+            }
+        }
+
+        /* Calendar box styling */
         .form-box {
             width: 500px;
             height: 500px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: auto; /* Allows scrolling if content overflows */
+            overflow: auto;
             padding: 20px;
-        }
-
-        .container {
-            margin-bottom: 20px;
-        }
-
-        .container-header {
-            background-color: #007BFF;
-            color: white;
-            cursor: pointer;
-            padding: 15px;
-            font-size: 18px;
-            text-align: left;
-            border: none;
-            border-radius: 8px 8px 0 0;
-            width: 100%;
-        }
-
-        .container-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            background-color: #f9f9f9;
-            padding: 0 15px;
-            border-radius: 0 0 8px 8px;
-        }
-
-        .container-content.open {
-            max-height: 1000px; /* Large enough to show all content */
-            padding: 15px;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .status-accepted {
-            background-color: green;
-        }
-
-        .status-declined {
-            background-color: red;
-        }
-
-        .status-pending {
-            background-color: yellow;
-            color: black;
+            display: none;
+            /* Initially hidden */
+            position: fixed;
+            top: 60px;
+            /* Adjust based on navbar height */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            /* Ensure it appears on top */
         }
 
         .form-container {
             margin-top: 20px;
-            padding: 10px; /* Reduced padding */
+            padding: 10px;
             background-color: #f9f9f9;
             border-radius: 8px;
             border: 1px solid #ddd;
@@ -110,167 +225,644 @@
         .form-container button:hover {
             background-color: #0056b3;
         }
+
+        /* Hidden calendar */
+        #dateRange {
+            display: none;
+        }
+
+        /* Button to show calendar */
+        .show-calendar-button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .show-calendar-button:hover {
+            background-color: #0056b3;
+        }
+
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+        }
+        body {
+            color: whitesmoke;
+            background-color: whitesmoke;
+        }
+
+        .home-section {
+            padding: 20px;
+        }
+
+        .home-content {
+            display: flex;
+            align-items: center;
+            background-color: #624BFF;
+            border-radius: 10px;
+            padding: 10px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .home-content .home-text {
+            color: whitesmoke;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .home-content .text {
+            background-color: rgb(124, 230, 156);
+            border-radius: 10px;
+            padding: 10px 20px;
+        }
+
+        .home-content .text a {
+            color: whitesmoke;
+            text-decoration: none;
+        }
+
+        .notify {
+            margin-top: 20px;
+        }
+
+        .leed {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgb(149, 149, 212);
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .leed p {
+            margin: 0;
+            padding: 0 10px;
+        }
+
+        .leed p:nth-child(2) {
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .EMTRFs-list {
+            margin-top: 20px;
+        }
+
+        .EMTRFs-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .EMTRFs-item {
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .EMTRFs-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content:space-between;
+        }
+
+        .EMTRFs-header:hover {
+            background-color: #3a3a60;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .EMTRFs-details {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .EMTRFs-item.active .EMTRFs-details {
+            display: block;
+        }
+
+        .EMTRFs-details div {
+            margin-bottom: 8px;
+        }
+
+        .EMTRFs-details strong {
+            color: var(--main-color);
+        }
+
+        @media (max-width: 768px) {
+            .home-content {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px;
+            }
+
+            .home-content .home-text,
+            .home-content .text {
+                margin-top: 10px;
+            }
+
+            .notify {
+                margin-top: 10px;
+            }
+
+            .leed {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .leed p {
+                padding: 5px 0;
+            }
+
+            .leed p:nth-child(2) {
+                padding: 5px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .home-content {
+                padding: 10px;
+            }
+
+            .home-content .home-text,
+            .home-content .text {
+                margin-top: 10px;
+            }
+
+            .notify {
+                margin-top: 10px;
+            }
+
+            .leed {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .leed p {
+                padding: 5px 0;
+            }
+
+            .leed p:nth-child(2) {
+                padding: 5px;
+            }
+        }
+
+        .show-btn {
+            width: 100%;
+            height: 100px;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 50px;
+            /* Center text vertically in the button */
+            font-weight: bold;
+            border-radius: 20px;
+        }
+
+        .red-btn {
+            background-color: rgb(136, 178, 233);
+        }
+
+        .green-btn {
+            background-color: rgb(131, 224, 131);
+        }
+
+        .blue-btn {
+            background-color: rgb(142, 142, 211);
+        }
+        .box-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+        }
+        .box {
+            width: 70em;
+            height: auto;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #000;
+            font-size: 16px;
+            position: relative;
+            top: 7em;
+            left: 6em;
+            transition: all 0.3s ease;
+            display: none;
+            overflow-y: auto;
+            border-radius: 20px;
+        }
+        .expanded {
+            display: block;
+        }
     </style>
 </head>
 <body>
-    <div class="form-box">
+    <nav class="navbar navbar-expand-custom navbar-mainbg">
+        <a style="padding: 20px;" class="navbar-brand navbar-logo" href="#"><strong>CAE</strong></a>
+        <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <div class="hori-selector">
+                    <div class="left"></div>
+                    <div class="right"></div>
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="/hod/driverForm"><i class="far fa-address-book"></i>Cab Booking</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/hod/dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/hod/TRF_ADMIN"><i class="far fa-clone"></i>Create</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0);" id="calendarLink"><i
+                            class="far fa-calendar-alt"></i>Calendar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="toggleBox('box1')" href="javascript:void(0);"><i
+                            class="far fa-chart-bar"></i>Charts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="toggleBox('box2')" href="javascript:void(0);"><i
+                            class="far fa-chart-bar"></i>Charts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="toggleBox('box3')" href="javascript:void(0);"><i
+                            class="far fa-chart-bar"></i>Charts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="far fa-copy"></i>Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="form-box" id="calendarBox">
         <section class="container">
             <div class="form-container">
                 <form class="filter-form" action="/hod/dashboard" method="GET">
                     <label for="dateRange">Select Date Range:</label>
                     <input type="text" id="dateRange" name="dateRange" placeholder="Select Date Range">
-                    <div class="form-buttons">
-                        <button type="submit">Filter</button>
-                        <button type="button" id="clearButton">Clear</button>
-                    </div>
                 </form>
-            </div>
-        </section>
-
-        <!-- Received Forms Container -->
-        <section class="container">
-            <button class="container-header" onclick="toggleContent('receivedForms')">Received Forms</button>
-            <div class="container-content" id="receivedForms">
-                <!-- Full Form for Received Forms -->
-                <% if (receivedForms.length > 0) { %>
-                    <ul>
-                        <% receivedForms.forEach(item => { %>
-                            <li class="form-container">
-                                <div><strong>Employee Code:</strong> <%= item.employeeCode %></div>
-                                <div><strong>HODId:</strong> <%= item.hodId %></div>
-                                <div><strong>Traveller Name:</strong> <%= item.travellerName %></div>
-                                <div><strong>Mobile No:</strong> <%= item.mobileNo %></div>
-                                <div><strong>Department Name:</strong> <%= item.departmentName %></div>
-                                <div><strong>Band Designation:</strong> <%= item.bandDesignation %></div>
-                                <div><strong>Email Address:</strong> <%= item.emailAddress %></div>
-                                <div><strong>Departure Date:</strong> <%= new Date(item.departureDate).toLocaleDateString() %></div>
-                                <div><strong>Depart From:</strong> <%= item.departFrom %></div>
-                                <div><strong>Departure Time:</strong> <%= item.departureTime %></div>
-                                <div><strong>Arrival To:</strong> <%= item.arrivalTo %></div>
-                                <div><strong>Arrival Time:</strong> <%= item.arrivalTime %></div>
-                                <div><strong>Hotel Name:</strong> <%= item.hotelName %></div>
-                                <div><strong>Hotel City:</strong> <%= item.hotelCity %></div>
-                                <div><strong>Check-In Date:</strong> <%= new Date(item.checkInDate).toLocaleDateString() %></div>
-                                <div><strong>Check-Out Date:</strong> <%= new Date(item.checkOutDate).toLocaleDateString() %></div>
-                                <div><strong>Nights:</strong> <%= item.nights %></div>
-                                <div><strong>Location:</strong> <%= item.location %></div>
-                                <div><strong>Requisitioner Name:</strong> <%= item.requisitionerName %></div>
-                                <div><strong>Department:</strong> <%= item.department %></div>
-                                <div><strong>Date:</strong> <%= item.date %></div>
-                                <div><strong>Item Description:</strong> <%= item.itemDescription %></div>
-                                <div><strong>Priority:</strong> <%= item.priority %></div>
-                                <form action="/hod/decision/<%= item._id %>" method="post">
-                                    <button type="submit" name="decision" value="accepted">Accept</button>
-                                    <button type="submit" name="decision" value="declined">Decline</button>
-                                </form>
-                            </li>
-                        <% }) %>
-                    </ul>
-                <% } else { %>
-                    <div>No Received Forms found</div>
-                <% } %>
-            </div>
-        </section>
-
-        <!-- Sent Forms Container -->
-        <section class="container">
-            <button class="container-header" onclick="toggleContent('sentForms')">Sent Forms</button>
-            <div class="container-content" id="sentForms">
-                <!-- Full Form for Sent Forms -->
-                <% if (sentForms.length > 0) { %>
-                    <ul>
-                        <% sentForms.forEach(item => { %>
-                            <li class="form-container">
-                                <div><strong>Traveller Name:</strong> <%= item.travellerName %></div>
-                                <div><strong>HODId:</strong> <%= item.hodId %></div>
-                                <div><strong>Mobile No:</strong> <%= item.mobileNo %></div>
-                                <div><strong>Department Name:</strong> <%= item.departmentName %></div>
-                                <div><strong>Band Designation:</strong> <%= item.bandDesignation %></div>
-                                <div><strong>Email Address:</strong> <%= item.emailAddress %></div>
-                                <div><strong>Departure Date:</strong> <%= new Date(item.departureDate).toLocaleDateString() %></div>
-                                <div><strong>Depart From:</strong> <%= item.departFrom %></div>
-                                <div><strong>Departure Time:</strong> <%= item.departureTime %></div>
-                                <div><strong>Arrival To:</strong> <%= item.arrivalTo %></div>
-                                <div><strong>Arrival Time:</strong> <%= item.arrivalTime %></div>
-                                <div><strong>Hotel Name:</strong> <%= item.hotelName %></div>
-                                <div><strong>Hotel City:</strong> <%= item.hotelCity %></div>
-                                <div><strong>Check-In Date:</strong> <%= new Date(item.checkInDate).toLocaleDateString() %></div>
-                                <div><strong>Check-Out Date:</strong> <%= new Date(item.checkOutDate).toLocaleDateString() %></div>
-                                <div><strong>Nights:</strong> <%= item.nights %></div>
-                                <div><strong>Location:</strong> <%= item.location %></div>
-                                <div><strong>Requisitioner Name:</strong> <%= item.requisitionerName %></div>
-                                <div><strong>Department:</strong> <%= item.department %></div>
-                                <div><strong>Date:</strong> <%= item.date %></div>
-                                <div><strong>Item Description:</strong> <%= item.itemDescription %></div>
-                                <div><strong>Priority:</strong> <%= item.priority %></div>
-                                <strong>Status:</strong> <span class="status status-<%= item.status %>">
-                                    <%= item.status %>
-                                </span><br>
-                                <% if (item.decision) { %>
-                                    <strong>Decision:</strong> <%= item.decision %><br>
-                                <% } %>
-                            </li>
-                        <% }) %>
-                    </ul>
-                <% } else { %>
-                    <div>No Sent Forms found</div>
-                <% } %>
-            </div>
-        </section>
-
-        <!-- Driver Bookings Container -->
-        <section class="container">
-            <button class="container-header" onclick="toggleContent('driverBookings')">Driver Bookings</button>
-            <div class="container-content" id="driverBookings">
-                <!-- Full Form for Driver Bookings -->
-                <% if (driverBookings.length > 0) { %>
-                    <ul>
-                        <% driverBookings.forEach(booking => { %>
-                            <li class="form-container">
-                                <div><strong>Driver Name:</strong> <%= booking.driverName %></div>
-                                <div><strong>Driver ID:</strong> <%= booking.driverId %></div>
-                                <div><strong>Cab Number:</strong> <%= booking.cabNumber %></div>
-                                <div><strong>Passenger Name:</strong> <%= booking.passengerName %></div>
-                                <div><strong>Pickup Location:</strong> <%= booking.pickupLocation %></div>
-                                <div><strong>Dropoff Location:</strong> <%= booking.dropoffLocation %></div>
-                                <div><strong>Pickup Time:</strong> <%= new Date(booking.pickupTime).toLocaleTimeString() %></div>
-                                <div><strong>Dropoff Time:</strong> <%= new Date(booking.dropoffTime).toLocaleTimeString() %></div>
-                                <div><strong>Notes:</strong> <%= booking.notes %></div>
-                            </li>
-                        <% }) %>
-                    </ul>
-                <% } else { %>
-                    <div>No bookings found</div>
-                <% } %>
+                <button class="show-calendar-button" id="showCalendarButton">Show Calendar</button>
             </div>
         </section>
     </div>
-
+    <div class="box-container">
+        <div class="box box1" id="box1">
+            <div class="EMTRFs-list">
+                <ul>
+                    <% if (sentForms.length> 0) { %>
+                        <% sentForms.forEach(item=> { %>
+                            <li class="EMTRFs-item">
+                                <div class="EMTRFs-header">
+                                    <strong>Name: <%= item.travellerName %><%= item.requisitionerName %>  </strong>
+                                    <strong>Date: <%= item.dateOfRequest.toDateString() %>  </strong>
+                                    <strong>Status: <%= item.status %> </strong>
+                                </div>
+                                <div class="EMTRFs-details">
+                                    <div><strong>HODId:</strong>
+                                        <%= item.hodId %>
+                                    </div>
+                                    <div>
+                                        <strong>Date of Request:</strong>
+                                        <%= item.dateOfRequest.toDateString() %><br>
+                                    </div>
+                                    <div><strong>Traveller Name:</strong>
+                                        <%= item.travellerName %>
+                                    </div>
+                                    <div><strong>Mobile No:</strong>
+                                        <%= item.mobileNo %>
+                                    </div>
+                                    <div><strong>Department Name:</strong>
+                                        <%= item.departmentName %>
+                                    </div>
+                                    <div><strong>Band Designation:</strong>
+                                        <%= item.bandDesignation %>
+                                    </div>
+                                    <div><strong>Email Address:</strong>
+                                        <%= item.emailAddress %>
+                                    </div>
+                                    <div><strong>Departure Date:</strong>
+                                        <%= new Date(item.departureDate).toLocaleDateString() %>
+                                    </div>
+                                    <div><strong>Depart From:</strong>
+                                        <%= item.departFrom %>
+                                    </div>
+                                    <div><strong>Departure Time:</strong>
+                                        <%= item.departureTime %>
+                                    </div>
+                                    <div><strong>Arrival To:</strong>
+                                        <%= item.arrivalTo %>
+                                    </div>
+                                    <div><strong>Arrival Time:</strong>
+                                        <%= item.arrivalTime %>
+                                    </div>
+                                    <div><strong>Hotel Name:</strong>
+                                        <%= item.hotelName %>
+                                    </div>
+                                    <div><strong>Hotel City:</strong>
+                                        <%= item.hotelCity %>
+                                    </div>
+                                    <div><strong>Check-In Date:</strong>
+                                        <%= new Date(item.checkInDate).toLocaleDateString() %>
+                                    </div>
+                                    <div><strong>Check-Out Date:</strong>
+                                        <%= new Date(item.checkOutDate).toLocaleDateString() %>
+                                    </div>
+                                    <div><strong>Nights:</strong>
+                                        <%= item.nights %>
+                                    </div>
+                                    <div><strong>Location:</strong>
+                                        <%= item.location %>
+                                    </div>
+                                    <div><strong>Requisitioner Name:</strong>
+                                        <%= item.requisitionerName %>
+                                    </div>
+                                    <div>
+                                        <strong>Date of Request:</strong>
+                                        <%= item.dateOfRequest.toDateString() %><br>
+                                    </div>
+                                    <div><strong>Department:</strong>
+                                        <%= item.department %>
+                                    </div>
+                                    <div><strong>Date:</strong>
+                                        <%= item.dateOfRequest %>
+                                    </div>
+                                    <div><strong>Item Description:</strong>
+                                        <%= item.itemDescription %>
+                                    </div>
+                                    <div><strong>Priority:</strong>
+                                        <%= item.priority %>
+                                    </div>
+                                    <div id="itemStatus" class="status-container">
+                                        <strong>Status:</strong>
+                                        <%= item.status %><br>
+                                        <% if (item.decision) { %>
+                                            <strong>Decision:</strong>
+                                            <%= item.decision %><br>
+                                        <% } %>
+                                    </div>
+                                    
+                                </div>
+                            </li>
+                            <% }) %>
+                                <% } else { %>
+                                    <li>No EMTRFs found</li>
+                                    <% } %>
+                </ul>
+            </div>
+        </div>
+        <div class="box box2" id="box2">
+            <div class="EMTRFs-list">
+                <ul>
+                    <% if (receivedForms.length> 0) { %>
+                        <% receivedForms.forEach(item=> { %>
+                            <li class="EMTRFs-item">
+                                <div class="EMTRFs-header">
+                                    <strong>Employee Code:</strong>
+                                    <%= item.employeeCode %>
+                                </div>
+                                <div class="EMTRFs-details">
+                                    <div><strong>Employee Code:</strong>
+                                        <%= item.employeeCode %>
+                                    </div>
+                                    <div>
+                                        <strong>Date of Request:</strong>
+                                        <%= item.dateOfRequest.toDateString() %><br>
+                                    </div>
+                                    <div><strong>Traveller Name:</strong>
+                                        <%= item.travellerName %>
+                                    </div>
+                                    <div><strong>Mobile No:</strong>
+                                        <%= item.mobileNo %>
+                                    </div>
+                                    <div><strong>Department Name:</strong>
+                                        <%= item.departmentName %>
+                                    </div>
+                                    <div><strong>Band Designation:</strong>
+                                        <%= item.bandDesignation %>
+                                    </div>
+                                    <div><strong>Email Address:</strong>
+                                        <%= item.emailAddress %>
+                                    </div>
+                                    <div><strong>Departure Date:</strong>
+                                        <%= new Date(item.departureDate).toLocaleDateString() %>
+                                    </div>
+                                    <div><strong>Depart From:</strong>
+                                        <%= item.departFrom %>
+                                    </div>
+                                    <div><strong>Departure Time:</strong>
+                                        <%= item.departureTime %>
+                                    </div>
+                                    <div><strong>Arrival To:</strong>
+                                        <%= item.arrivalTo %>
+                                    </div>
+                                    <div><strong>Arrival Time:</strong>
+                                        <%= item.arrivalTime %>
+                                    </div>
+                                    <div><strong>Hotel Name:</strong>
+                                        <%= item.hotelName %>
+                                    </div>
+                                    <div><strong>Hotel City:</strong>
+                                        <%= item.hotelCity %>
+                                    </div>
+                                    <div><strong>Check-In Date:</strong>
+                                        <%= new Date(item.checkInDate).toLocaleDateString() %>
+                                    </div>
+                                    <div><strong>Check-Out Date:</strong>
+                                        <%= new Date(item.checkOutDate).toLocaleDateString() %>
+                                    </div>
+                                    <div><strong>Nights:</strong>
+                                        <%= item.nights %>
+                                    </div>
+                                    <div><strong>Location:</strong>
+                                        <%= item.location %>
+                                    </div>
+                                    <div><strong>Requisitioner Name:</strong>
+                                        <%= item.requisitionerName %>
+                                    </div>
+                                    <div>
+                                        <strong>Date of Request:</strong>
+                                        <%= item.dateOfRequest.toDateString() %><br>
+                                    </div>
+                                    <div><strong>Department:</strong>
+                                        <%= item.department %>
+                                    </div>
+                                    <div><strong>Date:</strong>
+                                        <%= item.date %>
+                                    </div>
+                                    <div><strong>Item Description:</strong>
+                                        <%= item.itemDescription %>
+                                    </div>
+                                    <div><strong>Priority:</strong>
+                                        <%= item.priority %>
+                                    </div>
+                                    <form action="/hod/decision/<%= item._id %>" method="post">
+                                        <button type="submit" name="decision" value="accepted">Accept</button>
+                                        <button type="submit" name="decision" value="declined">Decline</button>
+                                    </form>
+                                </div>
+                            </li>
+                            <% }) %>
+                                <% } else { %>
+                                    <li>No EMTRFs found</li>
+                                    <% } %>
+                </ul>
+            </div>
+        </div>
+        <div class="box box3" id="box3">
+            <div class="EMTRFs-list">
+                <ul>
+                    <% if (driverBookings.length> 0) { %>
+                        <% driverBookings.forEach(booking=> { %>
+                            <li class="EMTRFs-item">
+                                <div class="EMTRFs-header">
+                                    <strong>Driver Name:</strong>
+                                    <%= booking.driverName %>
+                                </div>
+                                <div><strong>Driver ID:</strong>
+                                    <%= booking.driverId %>
+                                </div>
+                                <div><strong>Cab Number:</strong>
+                                    <%= booking.cabNumber %>
+                                </div>
+                                <div><strong>Passenger Name:</strong>
+                                    <%= booking.passengerName %>
+                                </div>
+                                <div><strong>Pickup Location:</strong>
+                                    <%= booking.pickupLocation %>
+                                </div>
+                                <div><strong>Dropoff Location:</strong>
+                                    <%= booking.dropoffLocation %>
+                                </div>
+                                <div><strong>Pickup Time:</strong>
+                                    <%= new Date(booking.pickupTime).toLocaleTimeString() %>
+                                </div>
+                                <div><strong>Dropoff Time:</strong>
+                                    <%= new Date(booking.dropoffTime).toLocaleTimeString() %>
+                                </div>
+                                <div><strong>Notes:</strong>
+                                    <%= booking.notes %>
+                                </div>
+                            </li>
+                            <% }) %>
+                                <% } else { %>
+                                    <li>No bookings found</li>
+                                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-        function toggleContent(id) {
-            var content = document.getElementById(id);
-            content.classList.toggle('open');
-        }
-    
-        // Initialize Flatpickr with date range options
         flatpickr("#dateRange", {
             mode: "range",
             dateFormat: "Y-m-d",
-            // Remove minDate to allow past dates
-            // minDate: "today", // Comment out this line to allow past dates
-            onClose: function (selectedDates) {
-                // Automatically populate the startDate and endDate inputs on date range selection
-                const [startDate, endDate] = selectedDates;
-                document.querySelector("input[name='startDate']").value = startDate ? startDate.toISOString().split('T')[0] : '';
-                document.querySelector("input[name='endDate']").value = endDate ? endDate.toISOString().split('T')[0] : '';
+            onChange: function (selectedDates) {
+                if (selectedDates.length === 2) {
+                    document.querySelector('.filter-form').submit();
+                }
             }
         });
-    
-        // Clear button functionality
-        document.getElementById('clearButton').addEventListener('click', function () {
-            document.getElementById('dateRange')._flatpickr.clear();
+        document.getElementById('showCalendarButton').addEventListener('click', function () {
+            document.getElementById('dateRange').style.display = 'block';
+            document.getElementById('dateRange')._flatpickr.open();
         });
+        document.getElementById('calendarLink').addEventListener('click', function () {
+            const calendarBox = document.getElementById('calendarBox');
+            calendarBox.style.display = calendarBox.style.display === 'none' || calendarBox.style.display === '' ? 'block' : 'none';
+        });
+
+        function updateHoriSelector() {
+            var $activeItem = $('#navbarSupportedContent .active');
+            var $selector = $(".hori-selector");
+            var itemPos = $activeItem.position();
+            var itemHeight = $activeItem.innerHeight();
+            var itemWidth = $activeItem.innerWidth();
+
+            $selector.css({
+                "top": itemPos.top + "px",
+                "left": itemPos.left + "px",
+                "height": itemHeight + "px",
+                "width": itemWidth + "px"
+            });
+        }
+        $(document).ready(function () {
+            setTimeout(updateHoriSelector, 500);
+            $(window).on('resize', function () {
+                setTimeout(updateHoriSelector, 500);
+            });
+            $(".navbar-toggler").click(function () {
+                $(".navbar-collapse").slideToggle(300);
+                setTimeout(updateHoriSelector, 500);
+            });
+            $("#navbarSupportedContent").on("click", "li", function () {
+                $('#navbarSupportedContent li').removeClass("active");
+                $(this).addClass('active');
+                updateHoriSelector();
+            });
+            if ($(window).width() <= 991) {
+                $(".navbar-collapse").hide();
+            }
+            $(function () {
+                var path = window.location.pathname.split("/").pop();
+                if (path === '') {
+                    path = 'index.html';
+                }
+                var $target = $('#navbarSupportedContent a[href="' + path + '"]');
+                $target.parent().addClass('active');
+            });
+        });
+        let currentBox = null;
+
+        function toggleBox(boxId) {
+            const box = document.getElementById(boxId);
+            if (currentBox && currentBox !== box) {
+                currentBox.classList.remove('expanded');
+                currentBox.style.display = 'none'; // Hide the previously opened box
+            }
+            if (box.style.display === 'none' || box.style.display === '') {
+                box.style.display = 'block'; // Show the box
+                box.classList.add('expanded'); // Expand the box
+                currentBox = box; // Set the current box to the newly opened box
+            } else {
+                box.classList.remove('expanded'); // Collapse the box
+                box.style.display = 'none'; // Hide the box
+                currentBox = null; // Reset the current box
+            }
+        }
+        document.querySelectorAll('.EMTRFs-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('active');
+            });
+        });
+        
     </script>
 </body>
 </html>
