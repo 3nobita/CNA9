@@ -1,42 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <style>
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f9;
         }
+
         .navbar {
             background-color: #5161ce;
             padding: 0;
-            position: relative; /* Added relative positioning for the toggle button */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000; /* Ensure navbar is on top */
         }
+
         .navbar-logo {
             padding: 15px;
             color: #fff;
             text-decoration: none;
             font-size: 18px;
         }
+
         .navbar-toggler {
             border: none;
             background: transparent;
             position: absolute;
-            right: 15px; /* Positioned to the right corner */
+            right: 15px;
         }
+
         .navbar-toggler i {
             color: #fff;
             font-size: 24px;
         }
+
         .navbar-collapse {
             overflow: hidden;
             position: relative;
         }
+
         .navbar-nav {
             list-style: none;
             margin: 0;
@@ -44,9 +58,11 @@
             display: flex;
             flex-direction: row;
         }
+
         .navbar-nav li {
             position: relative;
         }
+
         .navbar-nav a {
             color: rgba(255, 255, 255, 0.5);
             text-decoration: none;
@@ -55,6 +71,7 @@
             padding: 20px;
             transition: color 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
+
         .navbar-nav li.active a {
             color: #5161ce;
             background-color: #fff;
@@ -72,6 +89,7 @@
             border-radius: 15px 15px 0 0;
             margin-top: 10px;
         }
+
         .hori-selector .right,
         .hori-selector .left {
             position: absolute;
@@ -80,12 +98,15 @@
             background-color: #fff;
             bottom: 10px;
         }
+
         .hori-selector .right {
             right: -25px;
         }
+
         .hori-selector .left {
             left: -25px;
         }
+
         .hori-selector .right::before,
         .hori-selector .left::before {
             content: '';
@@ -95,10 +116,12 @@
             border-radius: 50%;
             background-color: #5161ce;
         }
+
         .hori-selector .right::before {
             bottom: 0;
             right: -25px;
         }
+
         .hori-selector .left::before {
             bottom: 0;
             left: -25px;
@@ -110,12 +133,15 @@
                 flex-flow: row nowrap;
                 justify-content: flex-start;
             }
+
             .navbar-expand-custom .navbar-nav {
                 flex-direction: row;
             }
+
             .navbar-expand-custom .navbar-toggler {
                 display: none;
             }
+
             .navbar-expand-custom .navbar-collapse {
                 display: flex !important;
             }
@@ -125,39 +151,117 @@
             .navbar-nav {
                 flex-direction: column;
             }
+
             .navbar-nav a {
                 padding: 12px 30px;
                 width: 100%;
             }
+
             .hori-selector {
                 display: none;
             }
+
             .navbar-collapse {
-                display: none; /* Ensure menu is hidden by default */
+                display: none;
             }
+        }
+
+        /* Calendar box styling */
+        .form-box {
+            width: 500px;
+            height: 500px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: auto;
+            padding: 20px;
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 60px; /* Adjust based on navbar height */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000; /* Ensure it appears on top */
+        }
+
+        .form-container {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .form-container input,
+        .form-container select,
+        .form-container textarea {
+            margin-bottom: 10px;
+            width: calc(100% - 22px);
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hidden calendar */
+        #dateRange {
+            display: none;
+        }
+
+        /* Button to show calendar */
+        .show-calendar-button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .show-calendar-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-custom navbar-mainbg">
         <a class="navbar-brand navbar-logo" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
-                <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+                <div class="hori-selector">
+                    <div class="left"></div>
+                    <div class="right"></div>
+                </div>
                 <li class="nav-item">
-                  <a class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Address Book</a>
+                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Address Book</a>
                 </li>
                 <li class="nav-item active">
-                  <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                    <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Components</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Calendar</a>
+                    <a class="nav-link" href="javascript:void(0);" id="calendarLink"><i class="far fa-calendar-alt"></i>Calendar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Charts</a>
@@ -169,15 +273,52 @@
         </div>
     </nav>
 
+    <div class="form-box" id="calendarBox">
+        <section class="container">
+            <div class="form-container">
+                <form class="filter-form" action="/hod/dashboard" method="GET">
+                    <label for="dateRange">Select Date Range:</label>
+                    <input type="text" id="dateRange" name="dateRange" placeholder="Select Date Range">
+                </form>
+                <button class="show-calendar-button" id="showCalendarButton">Show Calendar</button>
+            </div>
+        </section>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
+        // Initialize Flatpickr with date range options
+        flatpickr("#dateRange", {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            onChange: function (selectedDates) {
+                // Automatically filter when both dates are selected
+                if (selectedDates.length === 2) {
+                    document.querySelector('.filter-form').submit();
+                }
+            }
+        });
+
+        // Show calendar button functionality
+        document.getElementById('showCalendarButton').addEventListener('click', function () {
+            document.getElementById('dateRange').style.display = 'block';
+            document.getElementById('dateRange')._flatpickr.open();
+        });
+
+        // Toggle calendar visibility
+        document.getElementById('calendarLink').addEventListener('click', function () {
+            const calendarBox = document.getElementById('calendarBox');
+            calendarBox.style.display = calendarBox.style.display === 'none' || calendarBox.style.display === '' ? 'block' : 'none';
+        });
+
         function updateHoriSelector() {
             var $activeItem = $('#navbarSupportedContent .active');
             var $selector = $(".hori-selector");
             var itemPos = $activeItem.position();
             var itemHeight = $activeItem.innerHeight();
             var itemWidth = $activeItem.innerWidth();
-            
+
             $selector.css({
                 "top": itemPos.top + "px",
                 "left": itemPos.left + "px",
@@ -186,35 +327,35 @@
             });
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Update horizontal selector after a short delay
             setTimeout(updateHoriSelector, 500);
 
             // Adjust horizontal selector on window resize
-            $(window).on('resize', function() {
+            $(window).on('resize', function () {
                 setTimeout(updateHoriSelector, 500);
             });
 
             // Toggle menu on button click
-            $(".navbar-toggler").click(function() {
+            $(".navbar-toggler").click(function () {
                 $(".navbar-collapse").slideToggle(300);
                 setTimeout(updateHoriSelector, 500);
             });
 
             // Handle nav item click
-            $("#navbarSupportedContent").on("click", "li", function() {
+            $("#navbarSupportedContent").on("click", "li", function () {
                 $('#navbarSupportedContent li').removeClass("active");
                 $(this).addClass('active');
                 updateHoriSelector();
             });
-            
+
             // Ensure menu is closed on page load in mobile view
             if ($(window).width() <= 991) {
-                $(".navbar-collapse").hide(); // Ensure menu is hidden by default on mobile
+                $(".navbar-collapse").hide();
             }
-            
+
             // Handle active link highlighting based on the current path
-            $(function() {
+            $(function () {
                 var path = window.location.pathname.split("/").pop();
                 if (path === '') {
                     path = 'index.html';
@@ -225,4 +366,5 @@
         });
     </script>
 </body>
+
 </html>
