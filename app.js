@@ -92,7 +92,7 @@ app.get('/driver/history', async (req, res) => {
 
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI)
     .then(async () => {
         console.log('MongoDB connected');
 
@@ -116,6 +116,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
         }
     })
     .catch(err => console.log('MongoDB connection error:', err));
+
 
 // Start the server
 app.listen(PORT, '0.0.0.0', () => {
